@@ -1,18 +1,16 @@
 import {computed, inject} from "@angular/core";
-import {Course} from "../models/course.model";
 import {patchState, signalStore, withComputed, withMethods, withState} from "@ngrx/signals";
+import {Course} from "../models/course.model";
 import {CoursesService} from "../services/courses.service";
 
 type CoursesState = {
     courses: Course[];
     loading: boolean;
-    filter: { query: string; order: "asc" | "desc" };
 };
 
 const initialState: CoursesState = {
     courses: [],
     loading: false,
-    filter: {query: "", order: "asc"},
 };
 
 let courses;
@@ -49,12 +47,12 @@ export const CoursesStore = signalStore(
         }),
     ),
     withComputed((state) => ({
-
-        beginnerCourses: computed(() =>{
+        beginnerCourses: computed(() => {
             const courses = state.courses();
             return courses.filter(course => course.category === "BEGINNER")
         }),
-
-        advancedCourses: computed(() => {return state.courses().filter(course => course.category === "ADVANCED")}),
+        advancedCourses: computed(() => {
+            return state.courses().filter(course => course.category === "ADVANCED");
+        }),
     })),
 );
